@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Setup Wizard | North Bengal Local</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <style>
+      :root {
+        --glass: rgba(255, 255, 255, 0.7);
+        --glass-border: rgba(255, 255, 255, 0.3);
+        --accent: #0ea5e9;
+        --accent-dark: #0284c7;
+        --emerald: #10b981;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        font-family: 'Outfit', sans-serif;
+        background: radial-gradient(circle at 0% 0%, #f0fdf4 0%, #e0f2fe 50%, #f8fafc 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow-x: hidden;
+      }
+
+      .setup-container {
+        width: 100%;
+        max-width: 600px;
+        padding: 40px;
+        position: relative;
+        z-index: 10;
+      }
+
+      .setup-card {
+        background: var(--glass);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 32px;
+        box-shadow: 0 40px 80px rgba(15, 23, 42, 0.1);
+        padding: 48px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .setup-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, var(--emerald), var(--accent));
+      }
+
+      .setup-header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .logo-mark {
+        width: 64px;
+        height: 64px;
+        background: linear-gradient(135deg, var(--emerald), var(--accent));
+        color: white;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 24px;
+        margin: 0 auto 20px;
+        box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);
+      }
+
+      h1 {
+        font-size: 28px;
+        font-weight: 700;
+        color: #0f172a;
+        margin: 0 0 10px;
+      }
+
+      .subtitle {
+        color: #64748b;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+      .step {
+        display: none;
+        animation: fadeIn 0.5s ease forwards;
+      }
+
+      .step.is-active {
+        display: block;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .form-group {
+        margin-bottom: 24px;
+      }
+
+      label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 8px;
+        padding-left: 4px;
+      }
+
+      input {
+        width: 100%;
+        padding: 14px 18px;
+        border-radius: 14px;
+        border: 2px solid rgba(148, 163, 184, 0.2);
+        background: rgba(255, 255, 255, 0.8);
+        font-family: inherit;
+        font-size: 15px;
+        transition: all 0.2s ease;
+        box-sizing: border-box;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+        background: #fff;
+      }
+
+      .btn-setup {
+        width: 100%;
+        padding: 16px;
+        border-radius: 14px;
+        border: none;
+        background: #0f172a;
+        color: white;
+        font-family: inherit;
+        font-weight: 600;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .btn-setup:hover {
+        background: #1e293b;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(15, 23, 42, 0.1);
+      }
+
+      .btn-setup:active {
+        transform: translateY(0);
+      }
+
+      .btn-setup.is-loading {
+        opacity: 0.7;
+        pointer-events: none;
+      }
+
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        margin-top: 10px;
+      }
+
+      .status-pill.online { background: #ecfdf5; color: #047857; }
+      .status-pill.offline { background: #fef2f2; color: #991b1b; }
+
+      .progress-container {
+        margin-top: 30px;
+        background: rgba(148, 163, 184, 0.1);
+        border-radius: 999px;
+        height: 8px;
+        overflow: hidden;
+        display: none;
+      }
+
+      .progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, var(--emerald), var(--accent));
+        width: 0%;
+        transition: width 0.3s ease;
+      }
+
+      .output-box {
+        margin-top: 20px;
+        background: #0f172a;
+        color: #94a3b8;
+        padding: 16px;
+        border-radius: 14px;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 12px;
+        max-height: 150px;
+        overflow-y: auto;
+        display: none;
+      }
+
+      .success-anim {
+        text-align: center;
+        padding: 20px;
+      }
+
+      .success-icon {
+        width: 80px;
+        height: 80px;
+        background: var(--emerald);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+        margin: 0 auto 20px;
+        animation: scalePopup 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      }
+
+      @keyframes scalePopup {
+        0% { transform: scale(0); }
+        100% { transform: scale(1); }
+      }
+
+      .nav-links {
+        margin-top: 30px;
+        text-align: center;
+      }
+
+      .nav-links a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      .nav-links a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="setup-container">
+      <div class="setup-card">
+        <div class="setup-header">
+          <div class="logo-mark">NB</div>
+          <h1 id="mainTitle">Project Setup</h1>
+          <p class="subtitle" id="mainSubtitle">Configure your North Bengal travel engine.</p>
+        </div>
+
+        <!-- Step 1: Credentials -->
+        <div id="step-env" class="step is-active">
+          <div class="form-group">
+            <label for="supabase_url">Supabase URL</label>
+            <input type="text" id="supabase_url" placeholder="https://your-id.supabase.co" />
+          </div>
+          <div class="form-group">
+            <label for="supabase_key">Supabase Anon/Service Key</label>
+            <input type="password" id="supabase_key" placeholder="eyJhbGciOiJIUzI1NiI..." />
+          </div>
+          <div class="form-group">
+            <label for="groq_key">Groq API Key</label>
+            <input type="password" id="groq_key" placeholder="gsk_..." />
+          </div>
+          <button id="btnSaveEnv" class="btn-setup">
+            <span>Save Configuration</span>
+            <span class="icon">→</span>
+          </button>
+          <div id="envStatusContainer"></div>
+        </div>
+
+        <!-- Step 2: Migration -->
+        <div id="step-migrate" class="step">
+          <div style="margin-bottom: 24px;">
+            <p style="font-size: 15px; color: #475569; margin-bottom: 12px;">
+              Great! Your configuration is saved. Now we need to migrate your destination data (CSV) to the cloud.
+            </p>
+            <div style="background: rgba(14, 165, 233, 0.05); padding: 16px; border-radius: 12px; border-left: 4px solid var(--accent);">
+              <p style="margin: 0; font-size: 13px; color: #0369a1; font-weight: 500;">
+                Make sure you've run the SQL script in your Supabase SQL Editor first.
+              </p>
+            </div>
+          </div>
+          <button id="btnMigrate" class="btn-setup" style="background: var(--emerald);">
+            <span>Start Cloud Sync</span>
+            <span class="icon">☁️</span>
+          </button>
+          <div id="progressContainer" class="progress-container">
+            <div id="progressBar" class="progress-bar"></div>
+          </div>
+          <div id="outputBox" class="output-box"></div>
+        </div>
+
+        <!-- Step 3: Complete -->
+        <div id="step-success" class="step">
+          <div class="success-anim">
+            <div class="success-icon">✓</div>
+            <h2>Setup Complete!</h2>
+            <p class="subtitle">Your project is now powered by Supabase and Groq. All local data has been synced to the cloud.</p>
+          </div>
+          <button onclick="window.location.href='/'" class="btn-setup">
+            Go to Website
+          </button>
+        </div>
+
+        <div class="nav-links">
+           <a href="/">← Return to Home</a>
+        </div>
+      </div>
+    </div>
+
+    <script src="./setup.js"></script>
+  </body>
+</html>

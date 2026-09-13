@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Destination Guide | North Bengal Local</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .guide-hero {
+      position: relative;
+      min-height: 50vh;
+      display: flex;
+      align-items: center;
+      color: #fff;
+      background: #0f172a;
+      margin-bottom: 40px;
+    }
+
+    .guide-hero__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.4) 0%, #0f172a 100%);
+      z-index: 1;
+    }
+
+    .guide-hero__img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.6;
+    }
+
+    .guide-hero__content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      text-align: center;
+      margin: 0 auto;
+    }
+
+    .guide-hero h1 {
+      font-size: 48px;
+      margin: 10px 0;
+      text-transform: capitalize;
+    }
+
+    .guide-stats {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .guide-stat {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+      padding: 12px 24px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .guide-stat h4 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .guide-stat p {
+      margin: 0;
+      font-size: 12px;
+      color: #cbd5e1;
+      text-transform: uppercase;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    .top-places ul {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      gap: 16px;
+    }
+
+    .top-places li {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .top-places li:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .place-info h4 {
+      margin: 0 0 6px 0;
+    }
+
+    .place-desc {
+      margin: 0;
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .category-badge {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #e0f2fe;
+      color: #0284c7;
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="nav">
+    <div class="container nav__inner">
+      <div class="logo">
+        <div class="logo__mark">NB</div>
+        <div>
+          <div class="logo__title">North Bengal Local</div>
+          <div class="logo__tag">Destinations Guide</div>
+        </div>
+      </div>
+      <nav class="nav__links">
+        <a href="/">← Back to Home</a>
+        <a href="/#destinations">All Destinations</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="guide-hero">
+    <img id="heroImg" class="guide-hero__img"
+      src="https://images.pexels.com/photos/31477804/pexels-photo-31477804.jpeg?auto=compress&cs=tinysrgb&w=1600&fit=crop"
+      alt="Destination">
+    <div class="guide-hero__overlay"></div>
+    <div class="container guide-hero__content">
+      <p class="eyebrow" id="guideEyebrow">Complete Travel Guide</p>
+      <h1 id="guideTitle">Loading...</h1>
+      <p class="lead" id="guideLead">Detailed insights, local ratings, and top places to visit.</p>
+
+      <div class="guide-stats" id="guideStats">
+        <div class="guide-stat">
+          <h4 id="statTotal">--</h4>
+          <p>Listed Places</p>
+        </div>
+        <div class="guide-stat">
+          <h4 id="statRating">--</h4>
+          <p>Avg Rating</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container content-grid">
+    <div class="main-content">
+      <div class="section__header mb-4">
+        <h2>Top Rated Places</h2>
+      </div>
+      <div class="top-places" id="topPlacesList">
+        <p>Loading top places...</p>
+      </div>
+    </div>
+
+    <aside class="sidebar">
+      <div class="tip-card sticky" style="top: 100px;">
+        <h3>Quick Tips for <span id="tipCityName">this city</span></h3>
+        <ul>
+          <li>Book shared cabs early morning for best availability.</li>
+          <li>Expect prices to vary during peak season (Oct-Dec).</li>
+          <li>Use WhatsApp to confirm timings directly with drivers.</li>
+          <li>Check our interactive map for exact stand locations.</li>
+        </ul>
+        <a href="/index.html#map-explorer" class="btn btn--primary" style="width: 100%; margin-top: 16px;">View on
+          Map</a>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    // Extract city from URL
+    const params = new URLSearchParams(window.location.search);
+    const city = params.get('city') || 'darjeeling';
+
+    const cityImages = {
+      darjeeling: "https://images.pexels.com/photos/31477804/pexels-photo-31477804.jpeg?auto=compress&cs=tinysrgb&w=1600&fit=crop",
+      gangtok: "https://images.pexels.com/photos/32781112/pexels-photo-32781112.jpeg?auto=compress&cs=tinysrgb&w=1600&fit=crop",
+      kalimpong: "https://images.pexels.com/photos/4542266/pexels-photo-4542266.jpeg?auto=compress&cs=tinysrgb&w=1600&fit=crop",
+      dooars: "https://images.pexels.com/photos/17064448/pexels-photo-17064448.jpeg?auto=compress&cs=tinysrgb&w=1600&fit=crop",
+      mirik: "https://images.pexels.com/photos/35283489/pexels-photo-35283489.jpeg?auto=compress&cs=tinysrgb&w=1600&fit=crop",
+      lava: "/assets/img/lava.png",
+      kurseong: "/assets/img/kurseong.png"
+    };
+
+    function capitalize(str) {
+      return str.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    }
+
+    document.title = capitalize(city) + " Travel Guide | NBL";
+    document.getElementById('guideTitle').textContent = capitalize(city);
+    document.getElementById('tipCityName').textContent = capitalize(city);
+
+    if (cityImages[city]) {
+      document.getElementById('heroImg').src = cityImages[city];
+    }
+
+    // Fetch Data
+    async function loadGuideData() {
+      try {
+        const statsRes = await fetch(`/api/stats?city=${city}`);
+        if (statsRes.ok) {
+          const stats = await statsRes.json();
+          document.getElementById('statTotal').textContent = stats.total_places || "0";
+          document.getElementById('statRating').textContent = stats.avg_rating || "0.0";
+        }
+
+        const placesRes = await fetch(`/api/map-markers?city=${city}`);
+        if (placesRes.ok) {
+          let places = await placesRes.json();
+
+          // Sort by rating to get top places
+          places = places.sort((a, b) => (b.rating || 0) - (a.rating || 0)).slice(0, 8);
+
+          const listEl = document.getElementById('topPlacesList');
+          if (places.length === 0) {
+            listEl.innerHTML = "<p>No places found for this destination yet.</p>";
+            return;
+          }
+
+          listEl.innerHTML = `<ul>${places.map(p => `
+              <li>
+                <div class="place-info">
+                  <h4>${p.name}</h4>
+                  <p class="place-desc">${p.description || p.location}</p>
+                </div>
+                <div style="text-align: right">
+                  <span class="category-badge">${p.category.replace('_', ' ')}</span>
+                  <div style="font-size: 12px; margin-top:4px; color:#64748b; font-weight:600;">★ ${p.rating || 'New'}</div>
+                </div>
+              </li>
+            `).join('')}</ul>`;
+        }
+      } catch (err) {
+        console.error(err);
+        document.getElementById('topPlacesList').innerHTML = "<p>Error loading places.</p>";
+      }
+    }
+
+    loadGuideData();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>North Bengal Local | Budget Trips from Siliguri</title>
+  <meta name="description"
+    content="Plan budget trips from Siliguri to Darjeeling, Gangtok, Kalimpong and Dooars with local cab info and WhatsApp booking." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    /* ── Map Section Embed ───────────────────────────────────────── */
+    .section--map {
+      padding: 0;
+      background: linear-gradient(180deg, #f0fdf4 0%, #e0f2fe 100%);
+    }
+
+    .section--map .section__header {
+      padding-top: 56px;
+      padding-bottom: 32px;
+    }
+
+    .map-embed-wrapper {
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 24px 56px;
+    }
+
+    .map-shell {
+      width: 100%;
+      height: min(820px, calc(100vh - 120px));
+      background: rgba(255, 255, 255, 0.97);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 28px;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 360px minmax(0, 1fr);
+    }
+
+    .map-sidebar {
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+      border-right: 1px solid #e2e8f0;
+      min-height: 100%;
+      overflow: hidden;
+    }
+
+    .map-sidebar__top {
+      padding: 24px 24px 18px;
+      border-bottom: 1px solid #e5e7eb;
+      display: grid;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+
+    .map-sidebar__topbar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .map-sidebar__eyebrow {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #64748b;
+    }
+
+    .map-sidebar__topbar h2.map-title {
+      margin: 6px 0 0;
+      font-size: 22px;
+      line-height: 1.2;
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    .map-sidebar__subtext {
+      margin: 0;
+      color: #475569;
+      line-height: 1.55;
+      font-size: 13px;
+    }
+
+    .map-sidebar__summary {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .summary-card {
+      padding: 12px;
+      border-radius: 16px;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+    }
+
+    .summary-card__label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #64748b;
+      margin-bottom: 6px;
+    }
+
+    .summary-card__value {
+      font-size: 20px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .map-sidebar__controls {
+      padding: 18px 24px;
+      border-bottom: 1px solid #e5e7eb;
+      display: grid;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .control-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .control-field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .control-field--full {
+      grid-column: 1/-1;
+    }
+
+    .control-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+    }
+
+    .control-field select,
+    .control-field input[type="text"] {
+      width: 100%;
+      min-height: 44px;
+      padding: 0 14px;
+      border-radius: 12px;
+      border: 1px solid #dbe3ea;
+      background: #fff;
+      color: #0f172a;
+      font-family: inherit;
+      font-size: 14px;
+    }
+
+    .map-sidebar__actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .map-sidebar__status {
+      margin: 0;
+      font-size: 13px;
+      color: #64748b;
+      line-height: 1.5;
+    }
+
+    .map-places {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .map-places__header {
+      padding: 18px 24px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .map-places__header h3.places-heading {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .map-places__count {
+      font-size: 12px;
+      font-weight: 700;
+      color: #047857;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+
+    .places-list {
+      padding: 0 16px 16px;
+      overflow-y: auto;
+      display: grid;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .place-item {
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr);
+      gap: 12px;
+      padding: 12px;
+      border-radius: 18px;
+      border: 1px solid #e5e7eb;
+      background: #fff;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+
+    .place-item:hover {
+      transform: translateY(-2px);
+      border-color: #bae6fd;
+      box-shadow: 0 16px 28px rgba(14, 165, 233, .08);
+    }
+
+    .place-item.is-active {
+      border-color: #34d399;
+      box-shadow: 0 16px 28px rgba(16, 185, 129, .12);
+      background: #f0fdf4;
+    }
+
+    .place-item img {
+      width: 72px;
+      height: 72px;
+      border-radius: 14px;
+      object-fit: cover;
+    }
+
+    .place-item-content {
+      min-width: 0;
+    }
+
+    .place-item h4 {
+      margin: 0 0 6px;
+      font-size: 14px;
+      line-height: 1.35;
+      color: #0f172a;
+      font-weight: 600;
+    }
+
+    .place-item p {
+      margin: 0;
+      color: #64748b;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .place-meta {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+      align-items: center;
+    }
+
+    .place-rating,
+    .place-category,
+    .place-location {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      min-height: 22px;
+      padding: 0 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .place-rating {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .place-category {
+      background: #e0f2fe;
+      color: #1d4ed8;
+    }
+
+    .place-location {
+      background: #f1f5f9;
+      color: #475569;
+    }
+
+    .map-empty {
+      margin: 0 0 16px;
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px dashed #cbd5e1;
+      background: #f8fafc;
+      color: #64748b;
+      text-align: center;
+      line-height: 1.6;
+      font-size: 13px;
+    }
+
+    .map-main {
+      position: relative;
+      min-width: 0;
+      background: #e2e8f0;
+    }
+
+    .map-toolbar {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      right: 18px;
+      z-index: 1000;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      pointer-events: none;
+    }
+
+    .map-toolbar>* {
+      pointer-events: auto;
+    }
+
+    .map-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .94);
+      border: 1px solid rgba(255, 255, 255, .8);
+      box-shadow: 0 14px 28px rgba(15, 23, 42, .1);
+      color: #0f172a;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .category-legend {
+      background: rgba(255, 255, 255, .94);
+      padding: 14px;
+      border-radius: 18px;
+      box-shadow: 0 14px 28px rgba(15, 23, 42, .1);
+      min-width: 200px;
+    }
+
+    .category-legend h4 {
+      margin: 0 0 10px;
+      font-size: 13px;
+      color: #0f172a;
+      font-weight: 600;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 5px 0;
+      font-size: 12px;
+      color: #475569;
+    }
+
+    .legend-marker {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, .9);
+    }
+
+    #map-embed {
+      position: absolute;
+      inset: 0;
+    }
+
+    .map-loader {
+      position: absolute;
+      inset: 0;
+      z-index: 1100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(248, 250, 252, .72);
+      backdrop-filter: blur(4px);
+    }
+
+    .map-loader.is-visible {
+      display: flex;
+    }
+
+    .map-loader__card {
+      padding: 22px 26px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, .98);
+      box-shadow: 0 18px 38px rgba(15, 23, 42, .14);
+      text-align: center;
+    }
+
+    .spinner {
+      border: 4px solid #e5e7eb;
+      border-top: 4px solid #0ea5e9;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: mapSpin 1s linear infinite;
+      margin: 0 auto 12px;
+    }
+
+    @keyframes mapSpin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .map-loader__card p {
+      margin: 0;
+      color: #475569;
+      font-size: 14px;
+    }
+
+    .place-popup {
+      min-width: 200px;
+    }
+
+    .place-popup h4 {
+      margin: 0 0 6px;
+      font-size: 14px;
+      color: #0f172a;
+    }
+
+    .place-popup p {
+      margin: 0 0 6px;
+      font-size: 12px;
+      color: #475569;
+      line-height: 1.5;
+    }
+
+    .place-popup__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .place-popup__meta span {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: #f8fafc;
+      color: #475569;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    @media (max-width: 1024px) {
+      .map-shell {
+        grid-template-columns: 300px minmax(0, 1fr);
+      }
+
+      .map-sidebar__summary {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .map-shell {
+        grid-template-columns: 1fr;
+        height: auto;
+        min-height: 0;
+      }
+
+      .map-sidebar {
+        border-right: 0;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .map-main {
+        min-height: 52vh;
+      }
+
+      .map-toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .category-legend {
+        min-width: 0;
+        max-width: 240px;
+      }
+
+      .control-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .map-embed-wrapper {
+        padding: 0 16px 40px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .map-shell {
+        border-radius: 20px;
+      }
+
+      .map-embed-wrapper {
+        padding: 0 12px 32px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="nav">
+    <div class="container nav__inner">
+      <div class="logo">
+        <div class="logo__mark">NB</div>
+        <div>
+          <div class="logo__title">North Bengal Local</div>
+          <div class="logo__tag">Trips from Siliguri</div>
+        </div>
+      </div>
+      <nav class="nav__links" id="desktopLinks">
+        <a href="#hero">Home</a>
+        <a href="#destinations">Destinations</a>
+        <a href="#cab-routes">Cab Routes</a>
+        <a href="#packages">Packages</a>
+        <a href="#map-explorer">Explore Map</a>
+        <a href="#ai-planner">Plan Trip (AI)</a>
+        <a href="#contact">Contact</a>
+        <a class="btn btn--whatsapp"
+          href="https://wa.me/917970850158?text=Hi%20North%20Bengal%20Local!%20I%20want%20to%20book%20a%20cab."
+          target="_blank" rel="noreferrer">WhatsApp Booking</a>
+      </nav>
+      <button class="nav__toggle" id="menuToggle" aria-label="Toggle menu">
+        ☰
+      </button>
+    </div>
+    <div class="nav__mobile" id="mobileMenu">
+      <a href="#hero">Home</a>
+      <a href="#destinations">Destinations</a>
+      <a href="#cab-routes">Cab Routes</a>
+      <a href="#packages">Packages</a>
+      <a href="#map-explorer">Explore Map</a>
+      <a href="#ai-planner">Plan Trip (AI)</a>
+      <a href="#contact">Contact</a>
+      <a class="btn btn--whatsapp"
+        href="https://wa.me/917970850158?text=Hi%20North%20Bengal%20Local!%20I%20want%20to%20book%20a%20cab."
+        target="_blank" rel="noreferrer">WhatsApp Booking</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="hero__overlay"></div>
+      <div class="container hero__content">
+        <p class="eyebrow">Siliguri Start · Verified Local Info</p>
+        <h1>Plan Budget Trips from Siliguri Easily</h1>
+        <p class="lead">
+          Discover Darjeeling, Gangtok, and North Bengal with trusted local
+          travel info. Book shared cabs or packages directly on WhatsApp.
+        </p>
+        <div class="search-card">
+          <div class="search-row">
+            <div class="input-wrap">
+              <span class="icon">🔍</span>
+              <input type="text" id="heroSearchInput" placeholder="Where do you want to go?" />
+            </div>
+            <button class="btn btn--primary" id="heroExploreBtn">Explore Destinations</button>
+            <button class="btn btn--ghost" id="heroBookCabBtn">Book Local Cab</button>
+          </div>
+          <div class="chips">
+            <span class="chip-label">Popular:</span>
+            <button class="chip">Darjeeling</button>
+            <button class="chip">Gangtok</button>
+            <button class="chip">Kalimpong</button>
+            <button class="chip">Dooars</button>
+          </div>
+        </div>
+        <div class="hero__badges">
+          <span>💬 WhatsApp booking support</span>
+          <span>🚌 Budget routes · Live cab stands</span>
+          <span>👍 Trusted by Siliguri travelers</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="destinations">
+      <div class="container section__header">
+        <div>
+          <p class="eyebrow">Popular Destinations</p>
+          <h2>Quick trips from Siliguri</h2>
+        </div>
+        <a class="link" href="#cab-routes">See cab routes →</a>
+      </div>
+      <div class="container card-grid card-grid--three">
+        <article class="card">
+          <img
+            src="https://images.pexels.com/photos/31477804/pexels-photo-31477804.jpeg?auto=compress&cs=tinysrgb&w=1200&fit=crop"
+            alt="Darjeeling" />
+          <div class="card__body">
+            <h3>Darjeeling</h3>
+            <p>Toy train views, tea gardens, Tiger Hill sunrise.</p>
+            <a class="text-btn" href="/guide.html?city=darjeeling" target="_blank" style="display: inline-block;">View
+              Guide →</a>
+          </div>
+        </article>
+        <article class="card">
+          <img
+            src="https://images.pexels.com/photos/32781112/pexels-photo-32781112.jpeg?auto=compress&cs=tinysrgb&w=1200&fit=crop"
+            alt="Gangtok" />
+          <div class="card__body">
+            <h3>Gangtok</h3>
+            <p>Monasteries, MG Marg cafes, cable-car cityscape.</p>
+            <a class="text-btn" href="/guide.html?city=gangtok" target="_blank" style="display: inline-block;">View
+              Guide →</a>
+          </div>
+        </article>
+        <article class="card">
+          <img
+            src="https://images.pexels.com/photos/4542266/pexels-photo-4542266.jpeg?auto=compress&cs=tinysrgb&w=1200&fit=crop"
+            alt="Kalimpong" />
+          <div class="card__body">
+            <h3>Kalimpong</h3>
+            <p>Quiet hills, Deolo park, cactus nursery walks.</p>
+            <a class="text-btn" href="/guide.html?city=kalimpong" target="_blank" style="display: inline-block;">View
+              Guide →</a>
+          </div>
+        </article>
+        <article class="card">
+          <img
+            src="https://images.pexels.com/photos/17064448/pexels-photo-17064448.jpeg?auto=compress&cs=tinysrgb&w=1200&fit=crop"
+            alt="Dooars" />
+          <div class="card__body">
+            <h3>Dooars</h3>
+            <p>Jaldapara safaris, riverbeds, endless forest drives.</p>
+            <a class="text-btn" href="/guide.html?city=dooars" target="_blank" style="display: inline-block;">View Guide
+              →</a>
+          </div>
+        </article>
+        <article class="card">
+          <img
+            src="https://images.pexels.com/photos/35283489/pexels-photo-35283489.jpeg?auto=compress&cs=tinysrgb&w=1200&fit=crop"
+            alt="Mirik" />
+          <div class="card__body">
+            <h3>Mirik</h3>
+            <p>Serene lake walks, orange orchards, boating.</p>
+            <a class="text-btn" href="/guide.html?city=mirik" target="_blank" style="display: inline-block;">View Guide
+              →</a>
+          </div>
+        </article>
+        <article class="card">
+          <img
+            src="/assets/img/lava.png"
+            alt="Lava" />
+          <div class="card__body">
+            <h3>Lava</h3>
+            <p>Monasteries, pine forests, and Neora Valley gates.</p>
+            <a class="text-btn" href="/guide.html?city=lava" target="_blank" style="display: inline-block;">View Guide
+              →</a>
+          </div>
+        </article>
+        <article class="card">
+          <img
+            src="/assets/img/kurseong.png"
+            alt="Kurseong" />
+          <div class="card__body">
+            <h3>Kurseong</h3>
+            <p>Misty tea gardens, Eagle's Craig, and orchid views.</p>
+            <a class="text-btn" href="/guide.html?city=kurseong" target="_blank" style="display: inline-block;">View Guide
+              →</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="cab-routes">
+      <div class="container section__header">
+        <div>
+          <p class="eyebrow">Cab Routes</p>
+          <h2>Live shared cab info from city stands</h2>
+          <p class="muted">
+            Prices, stands, and WhatsApp booking with local drivers.
+          </p>
+        </div>
+        <a class="btn btn--primary" href="https://wa.me/917970850158?text=Need%20a%20cab%20from%20Siliguri"
+          target="_blank" rel="noreferrer">Quick WhatsApp Booking</a>
+      </div>
+      <div class="container card-grid card-grid--two">
+        <article class="card card--plain">
+          <div class="card__row">
+            <div>
+              <p class="eyebrow small">Route</p>
+              <h3>Siliguri → Darjeeling</h3>
+            </div>
+            <span class="pill">Shared cab</span>
+          </div>
+          <div class="grid-two">
+            <div>
+              <p class="muted small">Local price</p>
+              <p class="strong">₹250</p>
+            </div>
+            <div>
+              <p class="muted small">Book via platform</p>
+              <p class="strong">₹300</p>
+            </div>
+            <div class="grid-span">
+              <p class="muted small">Departure</p>
+              <p>Shared jeep stand · leaves when filled</p>
+            </div>
+          </div>
+          <div class="btn-row">
+            <a class="btn btn--ghost" href="tel:+917970850158">Call Driver</a>
+            <a class="btn btn--primary"
+              href="https://wa.me/917970850158?text=Hi,%20I%20want%20to%20book%20a%20cab%20for%20Siliguri%20to%20Darjeeling"
+              target="_blank" rel="noreferrer">Book via WhatsApp</a>
+          </div>
+        </article>
+
+        <article class="card card--plain">
+          <div class="card__row">
+            <div>
+              <p class="eyebrow small">Route</p>
+              <h3>Siliguri → Gangtok</h3>
+            </div>
+            <span class="pill">Shared cab</span>
+          </div>
+          <div class="grid-two">
+            <div>
+              <p class="muted small">Local price</p>
+              <p class="strong">₹350</p>
+            </div>
+            <div>
+              <p class="muted small">Book via platform</p>
+              <p class="strong">₹420</p>
+            </div>
+            <div class="grid-span">
+              <p class="muted small">Departure</p>
+              <p>SNT stand · every 30 mins from 7 AM</p>
+            </div>
+          </div>
+          <div class="btn-row">
+            <a class="btn btn--ghost" href="tel:+917970850158">Call Driver</a>
+            <a class="btn btn--primary"
+              href="https://wa.me/917970850158?text=Hi,%20I%20want%20to%20book%20a%20cab%20for%20Siliguri%20to%20Gangtok"
+              target="_blank" rel="noreferrer">Book via WhatsApp</a>
+          </div>
+        </article>
+
+        <article class="card card--plain">
+          <div class="card__row">
+            <div>
+              <p class="eyebrow small">Route</p>
+              <h3>Siliguri → Kalimpong</h3>
+            </div>
+            <span class="pill">Shared cab</span>
+          </div>
+          <div class="grid-two">
+            <div>
+              <p class="muted small">Local price</p>
+              <p class="strong">₹220</p>
+            </div>
+            <div>
+              <p class="muted small">Book via platform</p>
+              <p class="strong">₹280</p>
+            </div>
+            <div class="grid-span">
+              <p class="muted small">Departure</p>
+              <p>Junction stand · frequent day service</p>
+            </div>
+          </div>
+          <div class="btn-row">
+            <a class="btn btn--ghost" href="tel:+917970850158">Call Driver</a>
+            <a class="btn btn--primary"
+              href="https://wa.me/917970850158?text=Hi,%20I%20want%20to%20book%20a%20cab%20for%20Siliguri%20to%20Kalimpong"
+              target="_blank" rel="noreferrer">Book via WhatsApp</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section--light" id="guides">
+      <div class="container section__header">
+        <div>
+          <p class="eyebrow">Travel Guides</p>
+          <h2>Local tips before you go</h2>
+        </div>
+        <a class="link" href="#packages">Budget packages →</a>
+      </div>
+      <div class="container card-grid card-grid--four">
+        <article class="card">
+          <img
+            src="https://images.pexels.com/photos/33565206/pexels-photo-33565206.jpeg?auto=compress&cs=tinysrgb&w=1200&fit=crop"
+            alt="Darjeeling guide" />
+          <div class="card__body">
+            <h3>Cheapest Way to Travel from Siliguri to Darjeeling</h3>
+            <a class="text-btn" href="/post.html?id=cheapest-way-darjeeling" target="_blank"
+              style="display: inline-block;">Read More →</a>
+          </div>
+        </article>
+        <article class="card">
+          <img
+            src="https://images.pexels.com/photos/30156563/pexels-photo-30156563.jpeg?auto=compress&cs=tinysrgb&w=1200&fit=crop"
+            alt="Gangtok guide" />
+          <div class="card__body">
+            <h3>3-Day Gangtok Travel Plan</h3>
+            <a class="text-btn" href="/post.html?id=3-day-gangtok" target="_blank" style="display: inline-block;">Read
+              More →</a>
+          </div>
+        </article>
+        <article class="card">
+          <img
+            src="https://images.pexels.com/photos/35151733/pexels-photo-35151733.jpeg?auto=compress&cs=tinysrgb&w=1200&fit=crop"
+            alt="Best time guide" />
+          <div class="card__body">
+            <h3>Best Time to Visit North Bengal</h3>
+            <a class="text-btn" href="/post.html?id=best-time-north-bengal" target="_blank"
+              style="display: inline-block;">Read More →</a>
+          </div>
+        </article>
+        <article class="card">
+          <img
+            src="https://images.pexels.com/photos/17064448/pexels-photo-17064448.jpeg?auto=compress&cs=tinysrgb&w=1200&fit=crop"
+            alt="Hidden places" />
+          <div class="card__body">
+            <h3>Top Hidden Places Near Siliguri</h3>
+            <a class="text-btn" href="/post.html?id=hidden-places-siliguri" target="_blank"
+              style="display: inline-block;">Read More →</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="packages">
+      <div class="container section__header">
+        <div>
+          <p class="eyebrow">Trip Packages</p>
+          <h2>Curated budget-friendly stays</h2>
+          <p class="muted">
+            Hotel + sightseeing combos you can confirm on WhatsApp.
+          </p>
+        </div>
+        <a class="btn btn--ghost" href="https://wa.me/917970850158?text=Share%20available%20packages" target="_blank"
+          rel="noreferrer">Ask for a custom quote</a>
+      </div>
+      <div class="container card-grid card-grid--two">
+        <article class="card">
+          <img
+            src="https://images.pexels.com/photos/31477804/pexels-photo-31477804.jpeg?auto=compress&cs=tinysrgb&w=1200&fit=crop"
+            alt="Darjeeling package" />
+          <div class="card__body">
+            <div class="card__row">
+              <h3>Darjeeling Budget Trip</h3>
+              <span class="pill pill--price">₹3999</span>
+            </div>
+            <p class="muted">2 Days / 1 Night</p>
+            <p class="strong">Includes: Hotel + Sightseeing</p>
+            <a class="btn btn--primary" href="https://wa.me/917970850158?text=Hi,%20I'm%20interested%20in%20the%20Darjeeling%20Budget%20Trip%20package%20for%20₹3999" target="_blank">Book Now →</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <img
+            src="https://images.pexels.com/photos/32781112/pexels-photo-32781112.jpeg?auto=compress&cs=tinysrgb&w=1200&fit=crop"
+            alt="Gangtok package" />
+          <div class="card__body">
+            <div class="card__row">
+              <h3>Gangtok Explorer</h3>
+              <span class="pill pill--price">₹6999</span>
+            </div>
+            <p class="muted">3 Days / 2 Nights</p>
+            <p class="strong">Includes: Lachung add-on available</p>
+            <a class="btn btn--primary" href="https://wa.me/917970850158?text=Hi,%20I'm%20interested%20in%20the%20Gangtok%20Explorer%20package%20for%20₹6999" target="_blank">Book Now →</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ── Map Explorer Section ──────────────────────────────────── -->
+    <section class="section section--map" id="map-explorer">
+      <div class="container section__header">
+        <div>
+          <p class="eyebrow">Places Explorer</p>
+          <h2>Explore North Bengal on the Map</h2>
+          <p class="muted">Discover hotels, food spots, transport hubs, and activities near every destination.</p>
+        </div>
+      </div>
+
+      <div class="map-embed-wrapper">
+        <div class="map-shell">
+          <!-- Sidebar -->
+          <aside class="map-sidebar">
+            <div class="map-sidebar__top">
+              <div class="map-sidebar__topbar">
+                <div>
+                  <p class="map-sidebar__eyebrow">Places Explorer</p>
+                  <h2 class="map-title" id="pageTitle">North Bengal Destinations</h2>
+                </div>
+              </div>
+              <p class="map-sidebar__subtext" id="mapStatus">
+                Explore hotels, food spots, transport points and attractions.
+              </p>
+              <div class="map-sidebar__summary">
+                <div class="summary-card">
+                  <span class="summary-card__label">Places</span>
+                  <span class="summary-card__value" id="totalPlaces">0</span>
+                </div>
+                <div class="summary-card">
+                  <span class="summary-card__label">Avg Rating</span>
+                  <span class="summary-card__value" id="avgRating">0.0</span>
+                </div>
+                <div class="summary-card">
+                  <span class="summary-card__label">Category</span>
+                  <span class="summary-card__value" id="activeCategoryLabel">All</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="map-sidebar__controls">
+              <div class="control-grid">
+                <label class="control-field">
+                  <span class="control-label">Destination</span>
+                  <select id="citySelector">
+                    <option value="">Select city</option>
+                  </select>
+                </label>
+                <label class="control-field">
+                  <span class="control-label">Category</span>
+                  <select id="sidebarCategoryFilter">
+                    <option value="">All categories</option>
+                  </select>
+                </label>
+                <label class="control-field control-field--full">
+                  <span class="control-label">Search place</span>
+                  <input type="text" id="placeSearch" placeholder="Tea garden, hotel, mall road..." />
+                </label>
+              </div>
+              <div class="map-sidebar__actions">
+                <button class="btn btn--primary" id="refreshPlacesBtn" type="button">Refresh Places</button>
+                <button class="btn btn--ghost" id="clearFiltersBtn" type="button">Clear Filters</button>
+              </div>
+            </div>
+
+            <section class="map-places">
+              <div class="map-places__header">
+                <h3 class="places-heading">Places list</h3>
+                <span class="map-places__count" id="placesCountBadge">0 places</span>
+              </div>
+              <div class="places-list" id="placesList">
+                <div class="map-empty">Loading places...</div>
+              </div>
+            </section>
+          </aside>
+
+          <!-- Map Canvas -->
+          <section class="map-main">
+            <div class="map-toolbar">
+              <div class="map-badge" id="mapCityBadge">📍 North Bengal overview</div>
+              <div class="category-legend">
+                <h4>Categories</h4>
+                <div class="legend-item">
+                  <div class="legend-marker" style="background:#3498db"></div><span>Accommodation</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-marker" style="background:#e74c3c"></div><span>Food &amp; Beverage</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-marker" style="background:#2ecc71"></div><span>Tourism Activity</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-marker" style="background:#f39c12"></div><span>Shopping</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-marker" style="background:#9b59b6"></div><span>Transportation</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-marker" style="background:#95a5a6"></div><span>General</span>
+                </div>
+              </div>
+            </div>
+
+            <div id="map-embed"></div>
+
+            <div class="map-loader" id="loadingOverlay">
+              <div class="map-loader__card">
+                <div class="spinner"></div>
+                <p>Loading places and map markers...</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+    <!-- ── End Map Explorer ──────────────────────────────────────── -->
+
+    <section class="section section--light" id="ai-planner">
+      <div class="container section__header">
+        <div>
+          <p class="eyebrow">AI Trip Planner</p>
+          <h2>Describe your trip, get an itinerary</h2>
+          <p class="muted">
+            Expert travel advice using real budget data and verified local places.
+          </p>
+        </div>
+        <button class="btn btn--sky" id="quickGenerate">Generate Plan</button>
+      </div>
+      <div class="container planner">
+        <input id="tripInput" type="text" placeholder="3 day Darjeeling trip under ₹5000"
+          aria-label="Describe your trip" />
+        <button class="btn btn--primary" id="generateBtn">Generate Plan</button>
+      </div>
+      <div class="container planner__grid">
+        <div class="itinerary" id="itineraryCard" aria-live="polite">
+          <div class="itinerary__header">
+            <span class="dot"></span>
+            <p class="strong" id="itineraryTitle">Plan preview</p>
+          </div>
+          <ul class="itinerary__list" id="itineraryList">
+            <li>
+              <p class="eyebrow small">Tip</p>
+              <p>Describe days, destination, and budget to get a tailored plan.</p>
+            </li>
+          </ul>
+        </div>
+        <div class="tip-card">
+          <h3>Why this works</h3>
+          <ul>
+            <li>Combines shared cabs + walkable sights</li>
+            <li>Uses budget homestays near Mall Road</li>
+            <li>Keeps food under ₹600/day with local cafes</li>
+            <li>Optional upgrade: private cab add-on</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="testimonials">
+      <div class="container section__header">
+        <div>
+          <p class="eyebrow">Testimonials</p>
+          <h2>Loved by budget travelers</h2>
+        </div>
+        <a class="link" href="https://wa.me/917970850158?text=Share%20feedback" target="_blank" rel="noreferrer">Share
+          your review →</a>
+      </div>
+      <div class="container card-grid card-grid--two">
+        <article class="card card--plain">
+          <p class="rating">⭐⭐⭐⭐⭐</p>
+          <p>Easy cab booking from Siliguri to Darjeeling.</p>
+          <p class="eyebrow small">Ankita, Kolkata</p>
+        </article>
+        <article class="card card--plain">
+          <p class="rating">⭐⭐⭐⭐⭐</p>
+          <p>Saved money and got real local travel info.</p>
+          <p class="eyebrow small">Rahul, Bengaluru</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container cta">
+        <div>
+          <h3>Ready to travel?</h3>
+          <p class="muted">Message us for quick cab quotes or a custom package.</p>
+        </div>
+        <div class="btn-row">
+          <a class="btn btn--white" href="https://wa.me/917970850158?text=Need%20a%20trip%20plan" target="_blank"
+            rel="noreferrer">Chat on WhatsApp</a>
+          <a class="btn btn--outline-light" href="tel:+917970850158">Call us</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="contact">
+    <div class="container footer__grid">
+      <div>
+        <h3>North Bengal Local</h3>
+        <p>
+          Helping travelers explore North Bengal easily with local cab info and
+          trustworthy guides.
+        </p>
+      </div>
+      <div>
+        <h4>Links</h4>
+        <a href="#destinations">Destinations</a>
+        <a href="#guides">Travel Guides</a>
+        <a href="#cab-routes">Cab Routes</a>
+        <a href="#packages">Packages</a>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <a href="https://wa.me/917970850158?text=Hi%20North%20Bengal%20Local!" target="_blank"
+          rel="noreferrer">WhatsApp</a>
+        <a href="https://instagram.com/northbengallocal" target="_blank" rel="noreferrer">Instagram</a>
+        <a href="mailto:hello@northbengallocal.in">Email</a>
+      </div>
+      <div>
+        <h4>Newsletter</h4>
+        <p>Get weekend deals and new routes from Siliguri.</p>
+        <div class="newsletter">
+          <input type="email" placeholder="Your email" id="newsletterEmail" />
+          <button class="btn btn--primary" onclick="alert('Thanks for joining! We will notify you of new routes.')">Join</button>
+        </div>
+      </div>
+    </div>
+    <p class="footer__copy">© 2026 North Bengal Local</p>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="./map_component.js"></script>
+  <script src="./script.js"></script>
+</body>
+
+</html>

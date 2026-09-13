@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Travel Guide | North Bengal Local</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .post-header {
+      position: relative;
+      padding: 60px 0;
+      background: #0f172a;
+      color: #fff;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .post-header__img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.4;
+      transition: transform 10s ease;
+    }
+
+    .post-header.loaded .post-header__img {
+      transform: scale(1.05);
+    }
+
+    .post-header__content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .post-header h1 {
+      font-size: 42px;
+      margin: 10px 0 20px;
+      line-height: 1.2;
+    }
+
+    .post-body {
+      max-width: 760px;
+      margin: 60px auto;
+      padding: 0 20px;
+      font-size: 16px;
+      line-height: 1.8;
+      color: #334155;
+    }
+
+    .post-body h2 {
+      font-size: 24px;
+      color: #0f172a;
+      margin: 40px 0 16px;
+    }
+
+    .post-body p {
+      margin-bottom: 24px;
+    }
+
+    .post-body ul {
+      margin-bottom: 24px;
+      padding-left: 20px;
+    }
+
+    .post-body li {
+      margin-bottom: 10px;
+    }
+
+    .post-body .highlight {
+      background: #f0fdf4;
+      border-left: 4px solid #10b981;
+      padding: 16px 20px;
+      margin: 30px 0;
+      border-radius: 0 12px 12px 0;
+      font-weight: 500;
+      color: #047857;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      margin-bottom: 20px;
+      opacity: 0.8;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .back-btn:hover {
+      opacity: 1;
+      transform: translateX(-4px);
+    }
+  </style>
+</head>
+
+<body>
+  <header class="nav">
+    <div class="container nav__inner">
+      <div class="logo">
+        <div class="logo__mark">NB</div>
+        <div>
+          <div class="logo__title">North Bengal Local</div>
+          <div class="logo__tag">Blog & Guides</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="post-header" id="postHeader">
+    <img id="postImg" class="post-header__img" src="" alt="Cover">
+    <div class="post-header__content">
+      <a href="/" class="back-btn">← Back to Guides</a>
+      <p class="eyebrow" id="postCategory">Travel Tip</p>
+      <h1 id="postTitle">Loading...</h1>
+    </div>
+  </div>
+
+  <main class="post-body" id="postContent">
+    <p>Loading content...</p>
+  </main>
+
+  <script>
+    const posts = {
+      "cheapest-way-darjeeling": {
+        title: "Cheapest Way to Travel from Siliguri to Darjeeling",
+        category: "Budget Guide",
+        img: "https://images.pexels.com/photos/33565206/pexels-photo-33565206.jpeg?auto=compress&cs=tinysrgb&w=1600&fit=crop",
+        content: `
+            <p>Traveling from Siliguri to Darjeeling doesn't have to break the bank. With the right local knowledge, you can make the journey for as little as ₹250.</p>
+            <div class="highlight">The golden rule: Avoid private taxis at the airport or NJP station. Head straight to the shared jeep stands!</div>
+            <h2>1. Shared Jeeps from Siliguri Junction</h2>
+            <p>This is the most popular and economical method. Head to the Siliguri Junction shared taxi stand prominently located near the Tenzing Norgay bus terminus. Jeeps (primarily Tata Sumos and Boleros) wait until they have 10 passengers.</p>
+            <ul>
+              <li><strong>Cost:</strong> ₹250 to ₹300 per seat.</li>
+              <li><strong>Time:</strong> Approximately 3 to 3.5 hours depending on traffic in Kurseong.</li>
+              <li><strong>Pro-tip:</strong> Try to secure the front seat or outer middle seats. The back rows can be cramped!</li>
+            </ul>
+            <h2>2. Government Buses (NBSTC)</h2>
+            <p>If you prefer a larger vehicle and are okay with a slightly slower journey, the North Bengal State Transport Corporation operates daily buses from the Tenzing Norgay Bus Terminus.</p>
+            <ul>
+              <li><strong>Cost:</strong> ~₹150 to ₹180.</li>
+              <li><strong>Time:</strong> 4 hours.</li>
+            </ul>
+            <h2>3. The Iconic Toy Train</h2>
+            <p>If time is not a constraint and you want the journey itself to be the destination, the Darjeeling Himalayan Railway runs from NJP to Darjeeling. It's slower, but the views are unmatched.</p>
+          `
+      },
+      "3-day-gangtok": {
+        title: "3-Day Gangtok Travel Plan for Beginners",
+        category: "Itinerary",
+        img: "https://images.pexels.com/photos/30156563/pexels-photo-30156563.jpeg?auto=compress&cs=tinysrgb&w=1600&fit=crop",
+        content: `
+            <p>Gangtok is the perfect mix of vibrant city life and peaceful Buddhist monasteries. Three days is the sweet spot to see the highlights without rushing.</p>
+            <h2>Day 1: Arrival & MG Marg</h2>
+            <p>Take a shared cab from Siliguri (SNT Stand) early in the morning so you arrive in Gangtok by lunchtime. Check into your hotel (preferably within walking distance of MG Marg).</p>
+            <ul>
+              <li>Spend the evening walking down MG Marg. Enjoy the clean, vehicle-free street.</li>
+              <li>Dinner at <em>Taste of Tibet</em> or <em>Roll House</em>.</li>
+            </ul>
+            <h2>Day 2: Local Sightseeing</h2>
+            <p>Hire a local cab for the "7-point" or "10-point" local sightseeing tour (approx ₹1500-₹2000 per cab).</p>
+            <div class="highlight">Must-visits: Rumtek Monastery, Do Drul Chorten, Namgyal Institute of Tibetology, and the Gangtok Ropeway for sunset.</div>
+            <h2>Day 3: Tsomgo Lake & Baba Mandir</h2>
+            <p>Book a shared or private tour the day before through a local agent on MG Marg (requires permits!).</p>
+            <ul>
+              <li>Start by 8 AM. Tsomgo Lake is at 12,400 ft and is breathtaking.</li>
+              <li>Return to Gangtok by 4 PM, pack your bags, and prep for departure the next day.</li>
+            </ul>
+          `
+      },
+      "best-time-north-bengal": {
+        title: "Best Time to Visit North Bengal",
+        category: "Planning",
+        img: "https://images.pexels.com/photos/35151733/pexels-photo-35151733.jpeg?auto=compress&cs=tinysrgb&w=1600&fit=crop",
+        content: `
+            <p>North Bengal experiences distinct seasons, and your experience will drastically change depending on when you choose to visit.</p>
+            <h2>1. Spring (March to May)</h2>
+            <p>This is the peak tourist season. The weather is pleasantly cool (15°C to 20°C in the hills) and rhododendrons are in full bloom.</p>
+            <ul>
+              <li><strong>Best for:</strong> Darjeeling, Gangtok, Sandakphu trekking.</li>
+              <li><strong>Warning:</strong> Hotels are expensive, book well in advance.</li>
+            </ul>
+            <div class="highlight">If you hate crowds, avoid the mid-April to early-May rush when schools have summer vacations.</div>
+            <h2>2. Monsoon (June to September)</h2>
+            <p>Heavy rainfall makes the hills prone to landslides, and the Dooars forests remain closed to tourists (June 15 – Sept 15).</p>
+            <ul>
+              <li><strong>Best for:</strong> Finding cheap deals and enjoying the lush, washed-green landscape (only if you have a high risk-tolerance for travel delays).</li>
+            </ul>
+            <h2>3. Autumn/Winter (October to February)</h2>
+            <p>The skies clear up entirely in October. You get the crispest, unobstructed views of Mt. Kanchenjunga.</p>
+            <ul>
+              <li><strong>October-November:</strong> Ideal weather, clear skies.</li>
+              <li><strong>December-February:</strong> Gets very cold (0°C to 5°C). Snowfall is possible in higher altitudes like Tiger Hill, Nathula, and Lava.</li>
+            </ul>
+          `
+      },
+      "hidden-places-siliguri": {
+        title: "Top Hidden Places Near Siliguri",
+        category: "Offbeat Secrets",
+        img: "https://images.pexels.com/photos/17064448/pexels-photo-17064448.jpeg?auto=compress&cs=tinysrgb&w=1600&fit=crop",
+        content: `
+            <p>While Darjeeling and Gangtok take all the spotlight, the immediate outskirts of Siliguri hide some fantastic offbeat gems perfect for day trips or weekend getaways.</p>
+            <h2>1. Dudhia & Panighata</h2>
+            <p>Located on the Mirik highway, Dudhia is a beautiful picnic spot beside the Balason River. Just 30 minutes from Siliguri, the water is crystal clear in winter, and the surrounding forests provide excellent shade.</p>
+            <h2>2. Shivkhola</h2>
+            <p>A hidden river valley about an hour from Siliguri. It involves a slightly bumpy ride, but the pristine riverbed, a heritage temple, and absolute silence make it an incredible escape.</p>
+            <div class="highlight">There are a few local homestays in Shivkhola where you can eat locally reared chicken and fresh organic veggies.</div>
+            <h2>3. Sittong (The Orange Village)</h2>
+            <p>If you're willing to go a bit higher, Sittong is a cluster of villages surrounded by orange orchards. It’s quiet, undeveloped, and offers a pure village lifestyle experience.</p>
+            <ul>
+              <li><strong>Best time to visit:</strong> November to January when the oranges are ripe and glowing.</li>
+            </ul>
+          `
+      }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    const post = posts[id];
+
+    if (post) {
+      document.title = post.title + " | NBL Guides";
+      document.getElementById('postTitle').innerHTML = post.title;
+      document.getElementById('postCategory').textContent = post.category;
+      document.getElementById('postImg').src = post.img;
+      document.getElementById('postContent').innerHTML = post.content;
+
+      // Trigger subtle zoom animation
+      setTimeout(() => {
+        document.getElementById('postHeader').classList.add('loaded');
+      }, 100);
+    } else {
+      document.getElementById('postTitle').textContent = "Post not found";
+      document.getElementById('postContent').innerHTML = "<p>The guide you are looking for does not exist.</p>";
+    }
+  </script>
+</body>
+
+</html>
